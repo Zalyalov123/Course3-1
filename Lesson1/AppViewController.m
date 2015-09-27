@@ -10,19 +10,23 @@
 #import <ReactiveCocoa.h>
 #import <KVOMutableArray+ReactiveCocoaSupport.h>
 #import <BlocksKit+UIKit.h>
+#import "TestViewController.h"
+#import "DataController.h"
+#import "NewObject.h"
 
 @interface AppViewController ()
-@property (nonatomic, readonly) KVOMutableArray *items;
+{
+    NSMutableArray *newArr;
+}
+//@property (nonatomic, readonly) KVOMutableArray *items;
 @end
 
 @implementation AppViewController
-@synthesize items = _items;
 
-- (KVOMutableArray *)items {
-    if (!_items) {
-        _items = [KVOMutableArray new];
+- (void)viewDidLoad{
+    [super viewDidLoad];
         @weakify(self);
-        [_items.changeSignal subscribeNext:^(RACTuple *tuple) {
+        [[DataController sharedInstance].items.changeSignal subscribeNext:^(RACTuple *tuple) {
             @strongify(self);
             self.title = [NSString stringWithFormat:@"Items count: %@", @([tuple.first count])];
             NSKeyValueChange change = [tuple.second[NSKeyValueChangeKindKey] integerValue];
@@ -44,8 +48,6 @@
                     break;
             }
         }];
-    }
-    return _items;
 }
 
 - (IBAction)logoutDidPress:(id)sender {
@@ -53,16 +55,18 @@
 }
 
 - (IBAction)addButtonDidPress:(id)sender {
-    [self.items addObject:@(self.items.count)];
+    [self performSegueWithIdentifier:@"segue" sender:nil];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.items.count;
+    return [DataController sharedInstance].items.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CellID"];
-    cell.textLabel.text = [NSString stringWithFormat:@"%@", self.items[indexPath.row]];
+    NewObject *object = [[DataController sharedInstance] objectAtIndex:indexPath.row];
+    cell.textLabel.text = [NSString stringWithFormat:@"%ld", (long)object.number];
+    cell.detailTextLabel.text = object.text;
     return cell;
 }
 
@@ -71,26 +75,33 @@
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self.items removeObjectAtIndex:indexPath.row];
+    [[DataController sharedInstance]deleteObjectAtIndex:indexPath.row];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    NSNumber *number = self.items[indexPath.row];
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Change value" message:[NSString stringWithFormat:@"Enter new value for %@", number] preferredStyle:UIAlertControllerStyleAlert];
-    __weak UIAlertController *wAlert = alert;
-    [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-        textField.keyboardType = UIKeyboardTypeNumberPad;
-    }];
-    [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        UITextField *input = wAlert.textFields.firstObject;
-        NSNumber *value = @([input.text integerValue]);
-        [self.items replaceObjectAtIndex:indexPath.row withObject:value];
-    }]];
-    [alert addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
-    [self presentViewController:alert animated:YES completion:nil];
+    
+    //[self performSegueWithIdentifier:@"segue" sender:indexPath];
+    
 }
-
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([[segue identifier]isEqualToString:@"segue"]) {
+        //NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        TestViewController *vc = segue.destinationViewController;
+      //  NewObject *object = [[DataController sharedInstance] itemAtIndex:indexPath.row];
+        if (sender) {
+            NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+            vc.isNew = NO;
+            vc.iPath = indexPath.row;
+        } else {
+            vc.isNew = YES;
+        }
+    }
+}
+//- (void)addItemViewController:(TestViewController *)controller didFinishEnteringItem:(NSString *)item{
+//    [newArr addObject:item];
+//    NSLog(@"%@",item);
+//}
 - (void)dealloc {
     NSLog(@"%@ deallocated", NSStringFromClass([self class]));
 }

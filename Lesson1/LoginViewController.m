@@ -51,12 +51,12 @@
             [self showError:error.localizedDescription];
         } completed:^{
             [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"AppVC"] animated:YES completion:nil];
-//            [UIView transitionWithView:self.view.window duration:.6 options:UIViewAnimationOptionTransitionFlipFromRight animations:^(void) {
-//                BOOL oldState = [UIView areAnimationsEnabled];
-//                [UIView setAnimationsEnabled:NO];
-//                [(AppDelegate *)UIApplication.sharedApplication.delegate window].rootViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"AppVC"];
-//                [UIView setAnimationsEnabled:oldState];
-//            } completion:nil];
+            [UIView transitionWithView:self.view.window duration:.6 options:UIViewAnimationOptionTransitionFlipFromRight animations:^(void) {
+                BOOL oldState = [UIView areAnimationsEnabled];
+                [UIView setAnimationsEnabled:NO];
+                [(AppDelegate *)UIApplication.sharedApplication.delegate window].rootViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"AppVC"];
+                [UIView setAnimationsEnabled:oldState];
+            } completion:nil];
         }];
     }];
 }
