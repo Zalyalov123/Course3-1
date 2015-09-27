@@ -51,7 +51,7 @@
 }
 
 - (IBAction)logoutDidPress:(id)sender {
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)addButtonDidPress:(id)sender {
@@ -80,17 +80,13 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    //[self performSegueWithIdentifier:@"segue" sender:indexPath];
-    
-}
+   }
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([[segue identifier]isEqualToString:@"segue"]) {
-        //NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         TestViewController *vc = segue.destinationViewController;
-      //  NewObject *object = [[DataController sharedInstance] itemAtIndex:indexPath.row];
+        NewObject *object;
         if (sender) {
-            NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+             NSIndexPath *indexPath = (NSIndexPath *)sender;
             vc.isNew = NO;
             vc.objectIndex = indexPath.row;
         } else {
@@ -98,10 +94,7 @@
         }
     }
 }
-//- (void)addItemViewController:(TestViewController *)controller didFinishEnteringItem:(NSString *)item{
-//    [newArr addObject:item];
-//    NSLog(@"%@",item);
-//}
+
 - (void)dealloc {
     NSLog(@"%@ deallocated", NSStringFromClass([self class]));
 }

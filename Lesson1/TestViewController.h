@@ -7,11 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-//@class TestViewController;
+
 
 @protocol TestViewDelegate <NSObject>
 
-//- (void)addItemViewController:(TestViewController *)controller didFinishEnteringItem:(NSString *)item;
 
 @end
 @interface TestViewController : UIViewController
@@ -20,9 +19,8 @@
 @property (weak, nonatomic) IBOutlet UITextField *myTextField;
 @property (weak, nonatomic) IBOutlet UIButton *saveButton;
 
-//@property (nonatomic, weak) id <TestViewDelegate> delegate;
+
 @property (nonatomic) BOOL isNew;
 @property (assign, nonatomic) NSInteger objectIndex;
-//@property (strong, nonatomic) NSString *textFromStringField;
-//@property (weak, nonatomic) NSNumber *countForLabel;
+
 @end

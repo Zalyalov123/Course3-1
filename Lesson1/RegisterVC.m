@@ -13,6 +13,7 @@
 {
     NSMutableArray *valuesArr;
 }
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *V0constraint;
 
 
 @end
@@ -32,6 +33,7 @@
     [self.keyboardSignal subscribeNext:^(NSNumber *x) {
         [UIView animateWithDuration:.3 animations:^{
             @strongify(self);
+            self.V0constraint.constant = [x floatValue] / -2;
             [self.view layoutIfNeeded];
         }];
     }];
@@ -52,14 +54,16 @@
         }
         
     }];
-    RAC(self.registerButton, enabled) = [RACSignal combineLatest:@[ self.loginField.rac_textSignal, self.passwordField.rac_textSignal, self.confirmPasswordField.rac_textSignal, self.codeField.rac_textSignal] reduce:^(NSString *login, NSString *password, NSString *confirm, NSString *code){
-        return @(login.length > 4 && password.length > 2 && [confirm isEqualToString:password] && [code isEqualToString:self.codeNumberLabel.text]);
+    RAC(self.registerButton, enabled) = [RACSignal combineLatest:@[ self.loginField.rac_textSignal, self.passwordField.rac_textSignal, self.confirmPasswordField.rac_textSignal, self.codeField.rac_textSignal,RACObserve(self.codeNumberLabel, text)] reduce:^(NSString *login, NSString *password, NSString *confirm, NSString *code, NSString *valid){
+        return @(login.length > 4 && password.length > 2 && [confirm isEqualToString:password] && [code isEqualToString:valid]);
     }];
     [[[self.registerButton rac_signalForControlEvents:UIControlEventTouchUpInside] filter:^BOOL(UIButton *sender) {
         return sender.enabled;
     }] subscribeNext:^(id x) {
         @strongify(self);
+        UINavigationController *navController = self.navigationController;
         [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"AppVC"] animated:YES completion:nil];
+        [navController popViewControllerAnimated:NO];
     }];
 
 }

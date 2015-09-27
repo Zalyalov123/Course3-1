@@ -10,6 +10,7 @@
 #import "NewObject.h"
 
 @interface DataController ()
+@property (strong, nonatomic, readwrite) KVOMutableArray *items;
 
 @end
 

@@ -23,7 +23,8 @@
     
     if (self.isNew) {
         newObject = [[NewObject alloc] initWithNumber:0 text:@""];
-        self.myLabel.text = [NSString stringWithFormat:@"%ld",(long)newObject.number]
+        self.myLabel.text = [NSString stringWithFormat:@"%ld",(long)newObject.number];
+        self.sliderMy.value = 0;
         ;
     } else {
         newObject = [[DataController sharedInstance]objectAtIndex:self.objectIndex];
@@ -36,8 +37,9 @@
     
     
     @weakify(self);
-    RAC(self.saveButton, enabled) = [RACSignal combineLatest:@[self.myTextField.rac_textSignal] reduce:^(NSString *login){
-        return @(login.length == self.myLabel.text.intValue);
+    RAC(self.saveButton, enabled) = [RACSignal combineLatest:@[self.myTextField.rac_textSignal,RACObserve(self.sliderMy,value)] reduce:^(NSString *login,NSNumber *number){
+        NSInteger sliderValue = [number integerValue];
+        return @(login.length == sliderValue);
     }];
     [[[self.saveButton rac_signalForControlEvents:UIControlEventTouchUpInside] filter:^BOOL(UIButton *sender) {
         return sender.enabled;
