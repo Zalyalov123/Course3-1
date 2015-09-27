@@ -22,7 +22,7 @@
 
 //@property (nonatomic, weak) id <TestViewDelegate> delegate;
 @property (nonatomic) BOOL isNew;
-@property (assign, nonatomic) NSInteger iPath;
+@property (assign, nonatomic) NSInteger objectIndex;
 //@property (strong, nonatomic) NSString *textFromStringField;
 //@property (weak, nonatomic) NSNumber *countForLabel;
 @end

@@ -26,7 +26,7 @@
         self.myLabel.text = [NSString stringWithFormat:@"%ld",(long)newObject.number]
         ;
     } else {
-        newObject = [[DataController sharedInstance]objectAtIndex:self.iPath];
+        newObject = [[DataController sharedInstance]objectAtIndex:self.objectIndex];
         self.myLabel.text = [NSString stringWithFormat:@"%ld", newObject.number];
         
         [self.sliderMy setValue:newObject.number animated:YES];
@@ -48,7 +48,7 @@
         if (self.isNew) {
             [[DataController sharedInstance]addObject:newObject];
         }else{
-            [[DataController sharedInstance]saveObject:newObject atIndex:self.iPath];
+            [[DataController sharedInstance]saveObject:newObject atIndex:self.objectIndex];
         }
         [self.navigationController popViewControllerAnimated:YES];
     }];

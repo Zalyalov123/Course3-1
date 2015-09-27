@@ -92,7 +92,7 @@
         if (sender) {
             NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
             vc.isNew = NO;
-            vc.iPath = indexPath.row;
+            vc.objectIndex = indexPath.row;
         } else {
             vc.isNew = YES;
         }

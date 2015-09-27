@@ -8,7 +8,7 @@
         <!--Login View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="LoginViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="authorisation" id="BYZ-38-t0r" customClass="LoginViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="qDq-vg-f7A"/>
                         <viewControllerLayoutGuide type="bottom" id="N0m-fN-IbM"/>
@@ -37,7 +37,7 @@
                                 <rect key="frame" x="168" y="307" width="92" height="30"/>
                                 <state key="normal" title="Sign up"/>
                                 <connections>
-                                    <segue destination="ipi-kY-PZD" kind="presentation" id="F7S-4v-2Fg"/>
+                                    <segue destination="ipi-kY-PZD" kind="modal" id="dxH-yP-sB9"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rhL-GA-ygq">
@@ -47,6 +47,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" id="GvA-Pe-nM6"/>
                     <connections>
                         <outlet property="loginTextField" destination="ZQX-RQ-6Km" id="8jT-nj-qTW"/>
                         <outlet property="passwordTextField" destination="PG6-et-4Ax" id="V0h-dP-AmI"/>
@@ -56,7 +57,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="210" y="274.5"/>
+            <point key="canvasLocation" x="1022" y="274"/>
         </scene>
         <!--RegisterVC-->
         <scene sceneID="Yzv-Ay-8k0">
@@ -148,7 +149,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="L3d-G2-PBc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1095" y="631"/>
+            <point key="canvasLocation" x="1907" y="631"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="33p-I6-9f0">
@@ -166,7 +167,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DgG-eS-38M" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1025" y="-58.999999999999993"/>
+            <point key="canvasLocation" x="1837" y="-59"/>
         </scene>
         <!--Lesson 1-->
         <scene sceneID="Eor-Ep-cpk">
@@ -225,7 +226,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8uN-WG-xiQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1735" y="-58.999999999999993"/>
+            <point key="canvasLocation" x="2547" y="-59"/>
         </scene>
         <!--Test View Controller-->
         <scene sceneID="cZ5-p2-OuS">
@@ -278,7 +279,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UPL-bz-JUW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2512" y="-59"/>
+            <point key="canvasLocation" x="3324" y="-59"/>
         </scene>
     </scenes>
 </document>
