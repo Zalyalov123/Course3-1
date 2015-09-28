@@ -81,12 +81,12 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
    }
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([[segue identifier]isEqualToString:@"segue"]) {
         TestViewController *vc = segue.destinationViewController;
-        NewObject *object;
         if (sender) {
-             NSIndexPath *indexPath = (NSIndexPath *)sender;
+            NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
             vc.isNew = NO;
             vc.objectIndex = indexPath.row;
         } else {

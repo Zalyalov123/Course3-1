@@ -24,7 +24,7 @@
     if (self.isNew) {
         newObject = [[NewObject alloc] initWithNumber:0 text:@""];
         self.myLabel.text = [NSString stringWithFormat:@"%ld",(long)newObject.number];
-        self.sliderMy.value = 0;
+        [self.sliderMy setValue:0 animated:YES];
         ;
     } else {
         newObject = [[DataController sharedInstance]objectAtIndex:self.objectIndex];
@@ -34,19 +34,23 @@
         self.myTextField.text = newObject.text;
     }
     
-    
-    
     @weakify(self);
-    RAC(self.saveButton, enabled) = [RACSignal combineLatest:@[self.myTextField.rac_textSignal,RACObserve(self.sliderMy,value)] reduce:^(NSString *login,NSNumber *number){
+    [[self.sliderMy rac_signalForControlEvents:UIControlEventValueChanged] subscribeNext:^(UISlider *slider) {
+        @strongify(self);
+        newObject.number = slider.value;
+        self.myLabel.text = [NSString stringWithFormat:@"%ld", newObject.number];
+    }];
+    
+    RAC(self.saveButton, enabled) = [RACSignal combineLatest:@[self.myTextField.rac_textSignal,RACObserve(newObject,number)] reduce:^(NSString *login,NSNumber *number){
         NSInteger sliderValue = [number integerValue];
         return @(login.length == sliderValue);
     }];
-    [[[self.saveButton rac_signalForControlEvents:UIControlEventTouchUpInside] filter:^BOOL(UIButton *sender) {
-        return sender.enabled;
-    }] subscribeNext:^(id x) {
+    
+    [[self.saveButton rac_signalForControlEvents:UIControlEventTouchUpInside] 
+      subscribeNext:^(id x) {
         @strongify(self);
         newObject.text = self.myTextField.text;
-        newObject.number = self.myLabel.text.intValue;
+       // newObject.number = self.myLabel.text.intValue;
         if (self.isNew) {
             [[DataController sharedInstance]addObject:newObject];
         }else{
